@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <title>chapter1 list1-1</title>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+  <script>
+    // Your web app's Firebase configuration
+    // 設定値の値は、どこまで公開していいデータかわからないので、いったんすべて伏せておく
+    const firebaseConfig = {
+      apiKey: "******",
+      authDomain: "******",
+      databaseURL: "******",
+      projectId: "******",
+      storageBucket: "******",
+      messagingSenderId: "******",
+      appId: "******"
+    };
+    // Initialize Firebase
+    const fbase = firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <h1>Chapter1 List1-1</h1>
+  <p>
+    Firebase name: <script>document.write(fbase.name);</script>
+  </p>
+</body>
+</html>
