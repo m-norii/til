@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Auth Sample</title>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+        <script>
+            // 設定値の値は、どこまで公開していいデータかわからないので、いったんすべて伏せておく
+            const firebaseConfig = {
+                apiKey: "*******",
+                authDomain: "******",
+                databaseURL: "******",
+                projectId: "******",
+                storageBucket: "*******",
+                messagingSenderId: "******",
+                appId: "******"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user){
+                    console.log('auth user', user);
+                    document.querySelector('#msg').textContent = '"' + user.email + '"" logined!';
+                }
+            });
+
+            //login
+            function login(){
+                let email = document.querySelector('#email').value;
+                let password = document.querySelector('#password').value;
+                firebase.auth().signInWithEmailAndPassword(email, password)
+                    .then((result) => {
+                        console.log('sign in successfully!');
+                    }).catch((error) => {
+                        console.log(error.message);
+                        document.querySelector('#msg').textContent = 'fail to login...';
+                    });
+            }
+
+            //logout
+            function logout(){
+                firebase.auth().signOut();
+                document.getElementById('msg').textContent = 'no login...';
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Auth Sample</h1>
+        <p id="msg">no login...</p>
+        <div id="firebaseui-auth-container"></div>
+        <table>
+            <tr>
+                <th>Email</th>
+                <td><input type="email" id="email"></td>
+            </tr>
+            <tr>
+                <th>password</th>
+                <td><input type="password" id= "password"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button onclick="login();">Login</button>
+                    <button onclick="logout();">Logout</button>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
