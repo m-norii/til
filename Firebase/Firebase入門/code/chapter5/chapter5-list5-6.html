@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Storage Sample</title>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-storage.js"></script>
+        <script>
+            const firebaseConfig = {
+                apiKey: "******",
+                authDomain: "******",
+                databaseURL: "******",
+                projectId: "******",
+                storageBucket: "******",
+                messagingSenderId: "******",
+                appId: "*******"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            function loaded() {
+                var storage = firebase.storage();
+                var imgRef = storage.ref('image.jpg');
+                imgRef.getDownloadURL().then((url) => {
+                    document.querySelector('#msg').textContent = url;
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob';
+                    xhr.onload = (event) => {
+                        var blob = xhr.response;
+                        let im = document.querySelector('#img');
+                        im.src = URL.createObjectURL(blob);
+                    };
+                    xhr.open('GET', url);
+                    xhr.send();
+                }).catch(function(error){
+                    console.error("Error! ", error);
+                });
+            }
+        </script>
+    </head>
+    <body onload="loaded();">
+        <h1>Storage Sample</h1>
+        <p id="msg"></p>
+        <hr>
+        <img id="img">
+    </body>
+</html>

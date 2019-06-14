@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Storage Sample</title>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-storage.js"></script>
+        <script>
+            const firebaseConfig = {
+                apiKey: "******",
+                authDomain: "******",
+                databaseURL: "******",
+                projectId: "******",
+                storageBucket: "******",
+                messagingSenderId: "******",
+                appId: "*******"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            function loaded() {
+                var storage = firebase.storage();
+                var txtRef = storage.ref('sample.txt');
+                txtRef.getDownloadURL().then((url) => {
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'text';
+                    xhr.onload = (event) => {
+                        let data = xhr.responseText;
+                        let arr = data.split('\r\n');
+                        let result = '';
+                        for (var item in arr){
+                            result += '<li>' + arr[item] + '</li>';
+                        }
+                        document.querySelector('#list').innerHTML = result;
+                    };
+                    xhr.open('GET', url);
+                    xhr.send();
+                }).catch(function(error){
+                    console.error("Error! ", error);
+                });
+            }
+        </script>
+    </head>
+    <body onload="loaded();">
+        <h1>Storage Sample</h1>
+        <p id="msg"></p>
+        <hr>
+        <ol id="list"></ol>
+    </body>
+</html>

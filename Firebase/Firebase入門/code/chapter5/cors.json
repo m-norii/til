@@ -1,0 +1,7 @@
+[
+    {
+        "origin": ["http://localhost:8888"],
+        "method": ["GET","PUT","POST","DELETE"],
+        "maxAgeSecond": 3600
+    }
+]
