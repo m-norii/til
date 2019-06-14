@@ -290,7 +290,7 @@ Hosting URLにアクセス
 
 ### WebページからFirebaseの機能を利用する
 
-（あとでコードにリンク）
+[WebページからFirebaseの機能を利用](./code/chapter6/public/index-list6-2.html)
 
 デプロイ
 
@@ -335,7 +335,15 @@ i  hosting[hm-shining-moon]: releasing new version...
 
 ![Hosting](./images/chapter6-fig2.png)
 
+### Hostingの表示をチェックする
 
+![Hosting](./images/chapter6-fig3.png)
+
+書籍には無いが、あらたに「.web.app」ドメインでも接続できるようになっている。
+
+※ StackBlitz は使う予定ないのでスキップ
+
+## CloudFunctionsの利用
 
 
 
