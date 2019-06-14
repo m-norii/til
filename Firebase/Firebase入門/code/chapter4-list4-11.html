@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Cloud Firestore Sample</title>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-firestore.js"></script>
+        <script>
+            var find = null;
+            var msg = null;
+            var list = null;
+
+            function doLoad(){
+                find = document.querySelector('#find');
+                msg  = document.querySelector('#msg');
+                list = document.querySelector('#list');
+            }
+
+            const firebaseConfig = {
+                apiKey: "******",
+                authDomain: "******",
+                databaseURL: "******",
+                projectId: "******",
+                storageBucket: "******",
+                messagingSenderId: "******",
+                appId: "*******"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            //get firestore
+            const db = firebase.firestore();
+
+            let coll = db.collection("people");
+
+            function doAction() {
+                let num = find.value * 1;
+                coll.where('age', '>=', num - 5)
+                .where('age', '<=', num + 5)
+                .get()
+                .then((snapShot) => {
+                    let res = '';
+                    snapShot.forEach((doc) => {
+                        let data = doc.data();
+                        res += '<li>' + data.name + ' [' + data.mail + ' :' + data.age + ']</li>'
+                    });
+                    list.innerHTML = res;
+                    msg.textContent = 'find data: "' + find.value + '".';
+                })
+                .catch(function(error){
+                    console.error("Error writing document: ", error);
+                });
+            }
+        </script>
+    </head>
+    <body onload="doLoad();">
+        <h1>Firestore Sample</h1>
+        <h2 id="msg"></h2>
+        <table>
+            <tr>
+                <th>Age (from -5 to +5)</th>
+                <td><input type="text" id="find"></td>
+                <td><button onclick="doAction();">find</button></td>
+            </tr>
+        </table>
+        <hr>
+        <ol id="list"></ol>
+    </body>
+</html>

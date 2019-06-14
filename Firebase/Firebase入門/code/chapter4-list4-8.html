@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>Cloud Firestore Sample</title>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-firestore.js"></script>
+        <script>
+            var params = new URLSearchParams(window.location.search);
+            var id_value = params.get('id');
+            console.log(id_value);
+
+            var nm = null;
+            var ml = null;
+            var ag = null;
+            var msg = null;
+
+            const firebaseConfig = {
+                apiKey: "******",
+                authDomain: "******",
+                databaseURL: "******",
+                projectId: "******",
+                storageBucket: "******",
+                messagingSenderId: "******",
+                appId: "*******"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            //get firestore
+            const db = firebase.firestore();
+
+            let coll = db.collection("people");
+
+            function onload(){
+                nm = document.querySelector('#name');
+                ml = document.querySelector('#mail');
+                ag = document.querySelector('#age');
+                msg = document.querySelector('#msg');
+
+                if (id_value != null){
+                    coll.doc(id_value).get().then((doc) => {
+                        let data = doc.data();
+                        nm.value = data.name;
+                        ml.value = data.mail;
+                        ag.value = data.age;
+                        msg.textContent = 'id= "' + id_value + '".'
+                    });
+                }
+            }
+
+            coll.onSnapshot((querySnapshot) => {
+                let result = '';
+                querySnapshot.forEach((doc) => {
+                    let data = doc.data();
+                    result += '<li>' + data.name + ' [id= ' + doc.id + ' ]' + '</li>';
+                });
+                document.querySelector('#list').innerHTML = result;
+            })
+
+            function doAction() {
+                coll.doc(id_value).set({
+                    name: nm.value,
+                    mail: ml.value,
+                    age:  ag.value
+                })
+                .then(function() {
+                    nm.value = '';
+                    ml.value = '';
+                    ag.value = '';
+                    msg.textContent = 'update data';
+                })
+                .catch(function(error){
+                    console.error("Error writing document: ", error);
+                });
+            }
+        </script>
+    </head>
+    <body onload="onload();">
+        <h1>Firestore Sample</h1>
+        <h2 id="msg"></h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td><input type="text" id="mail"></td>
+            </tr>
+            <tr>
+                <th>age</th>
+                <td><input type="number" id="age"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><button onclick="doAction();">click</button></td>
+            </tr>
+        </table>
+        <hr>
+        <ol id="list"></ol>
+    </body>
+</html>
