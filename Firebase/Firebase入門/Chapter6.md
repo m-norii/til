@@ -345,6 +345,102 @@ i  hosting[hm-shining-moon]: releasing new version...
 
 ## CloudFunctionsの利用
 
+リスト6-7 を作って、デプロイ
 
+[index.js](./code/index-list6-7.js)
+
+※実際には ファイル名 index.js としてデプロイする。
+
+
+```
+$ firebase deploy --only functions
+⚠  functions: package.json indicates an outdated version of firebase-functions.
+ Please upgrade using npm install --save firebase-functions@latest in your functions directory.
+
+=== Deploying to 'hm-shining-moon'...
+
+i  deploying functions
+i  functions: ensuring necessary APIs are enabled...
+✔  functions: all necessary APIs are enabled
+i  functions: preparing functions directory for uploading...
+i  functions: packaged functions (27.73 KB) for uploading
+✔  functions: functions folder uploaded successfully
+i  functions: creating Node.js 8 function helloWorld(us-central1)...
+✔  functions[helloWorld(us-central1)]: Successful create operation. 
+Function URL (helloWorld): https://us-central1-hm-shining-moon.cloudfunctions.net/helloWorld
+
+✔  Deploy complete!
+
+Please note that it can take up to 30 seconds for your updated functions to propagate.
+Project Console: https://console.firebase.google.com/project/hm-shining-moon/overview
+```
+
+Function URLにアクセス
+
+![Hello World Function](./images/chapter6-fig4.png)
+
+### adminによるデータベースアクセス
+
+[index.js](./code/index-list6-8.js)
+
+※実際には ファイル名 index.js としてデプロイする。
+
+```
+$ firebase deploy --only functions
+(出力は省略)
+```
+
+再度、Function URLにアクセス
+
+```
+[
+  {
+    "name": "joe",
+    "mail": "joe@example.com",
+    "age": 33
+  },
+  {
+    "name": "taro",
+    "mail": "taro.yamada@example.com",
+    "age": "36"
+  },
+  {
+    "mail": "hanako@example.com",
+    "age": 28,
+    "name": "hanako"
+  }
+]
+```
+
+### Cloud Functionを外部から利用する
+
+[index.js](./code/index-list6-9.js)
+
+※実際には ファイル名 index.js としてデプロイする。
+
+[index-list6-10.html](./code/chapter6/public/index-list6-10.html)
+
+これでデプロイ
+
+```
+$ firebase deploy
+(出力は省略)
+```
+
+Webページにアクセスして確認
+
+・・・が、動かない。
+
+Firebase コンソールのログを確認すると
+
+```
+Billing account not configured. 
+```
+
+と出ている。
+
+この機能は支払いアカウントを設定しないと使えないようだ。
+
+なので、ここは仕方ないので、これで断念。
 
 
